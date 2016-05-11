@@ -1,0 +1,30 @@
+body{
+  background: #007399;
+}
+
+.username{
+  text-align:center;
+  margin-top:15vh;
+  font-size:6vw;
+}
+
+.username input{
+  width:80vw;
+  height:20vw;
+  border-radius:20px 20px;
+  border-style:none;
+}
+
+.username #submitName{
+  width:20vw;
+  height:10vw;
+  margin-top:10px;
+  border-radius:10px;
+  font-size:4vw;
+  background-color:rgba(0,0,0,0.0);
+  border-style:solid;
+  border-width:5px;
+  color:#FFF;
+  border-color:#FFF;
+  text-align:center;
+}

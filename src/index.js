@@ -5,6 +5,11 @@ var questions =require('./mock/questions.json');
 
 var app = express();
 
+app.use('/static', express.static(__dirname + '/public'));
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+
 //CHANGE LATER, HERE FOR C9
 var port = process.env.PORT;
 app.listen(port,function(){
@@ -14,7 +19,7 @@ app.listen(port,function(){
 //HOME ROUTE--
 //      Should be the user game information like sign on and buttons to press
 app.get("/",function(req,res){
-   res.send("Howdy World");
+   res.render("client.jade");
 });
 
 //HOST ROUTE--
@@ -27,4 +32,4 @@ app.get("/host/:password?",function(req,res){
     } else {
         res.send("Unfortunately you need permision to view this page... Sorry");
     }
-})
+});
