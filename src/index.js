@@ -23,7 +23,9 @@ http.listen(port,function(){
 //      Should be the user game information like sign on and buttons to press
 app.get("/",function(req,res){
     clientType = "player";
-    res.render("client.jade", {clientType: clientType});
+    res.locals.clientType = clientType;
+    res.render("client.jade");
+    console.log(res.locals)
 });
 
 //HOST ROUTE--
@@ -33,6 +35,7 @@ app.get("/host/:password?",function(req,res){
     //so as to be accessed by the public eye (The security is really strong on this project)
     if(req.params.password === "admin54"){
         clientType = "host";
+        res.locals.clientType = clientType;
         res.send("Welcome Admin");
     } else {
         res.send("Unfortunately you need permision to view this page... Sorry");
