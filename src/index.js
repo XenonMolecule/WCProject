@@ -25,7 +25,6 @@ app.get("/",function(req,res){
     clientType = "player";
     res.locals.clientType = clientType;
     res.render("client.jade");
-    console.log(res.locals)
 });
 
 //HOST ROUTE--
@@ -36,7 +35,7 @@ app.get("/host/:password?",function(req,res){
     if(req.params.password === "admin54"){
         clientType = "host";
         res.locals.clientType = clientType;
-        res.send("Welcome Admin");
+        res.render("host.jade");
     } else {
         res.send("Unfortunately you need permision to view this page... Sorry");
     }
@@ -45,6 +44,15 @@ app.get("/host/:password?",function(req,res){
 //SOCKET IO CONNECTION HANDLING
 io.on('connection', function(socket){
   console.log('a user connected');
+  socket.on('join', function(name){
+    io.emit('join', name);
+  });
+  socket.on('giveID',function(player){
+    io.emit('giveID',player);
+  });
+  socket.on('kick',function(id){
+    io.emit('kick',id);
+  });
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });

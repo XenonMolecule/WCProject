@@ -1,12 +1,13 @@
 extends ./layout.jade
 
 block content
-    .username
-        input(type="text",class="username")
-        br
-        button(id="submitName") Submit
-    .gameButtons(hidden)
-        button(id="btn1") X
-        button(id="btn2") X
-        button(id="btn3") X
-        button(id="btn4") X
+    .client
+        .username
+            input(type="text",class="usernameInput username")
+            br
+            button(id="submitName").coolBtn Submit
+        .gameButtons(hidden)
+            button(id="btn1") X
+            button(id="btn2") X
+            button(id="btn3") X
+            button(id="btn4") X

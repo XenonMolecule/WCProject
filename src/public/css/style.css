@@ -15,7 +15,7 @@ body{
   border-style:none;
 }
 
-.username #submitName{
+.coolBtn{
   width:20vw;
   height:10vw;
   margin-top:10px;
@@ -28,4 +28,54 @@ body{
   border-color:#FFF;
   text-align:center;
   cursor:pointer;
+}
+
+.host{
+  color:#FFF;
+  text-align:center;
+}
+
+.host{
+  font-family: 'Oswald', sans-serif;
+}
+
+.hostHeader h1{
+  font-size:15vw;
+  margin-bottom:-1vw;
+  margin-top:-1vw;
+}
+
+.hostHeader p{
+    font-size:2.5vw;
+}
+
+.playerList{
+  background-color: #266073;
+  height:50vh;
+  width:80vw;
+  border-radius:15px;
+  margin:0 auto;
+}
+
+.playerList ul{
+  list-style:none;
+  font-size:3vw;
+  margin-left:-40px;
+}
+
+@media(min-width:1200px){
+  .hostHeader p{
+    font-size:1vw;
+  }
+  .hostHeader h1{
+    font-size:10vw;
+  }
+  .coolBtn{
+    width:10vw;
+    height:5vw;
+    font-size:2vw;
+  }
+  .playerList ul{
+    font-size:1.5vw;
+  }
 }
