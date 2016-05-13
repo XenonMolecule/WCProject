@@ -7,19 +7,22 @@ var name,id;
 //But only if there is a username.  We don't want unnamed people
 $("#submitName").click(function(){
     name = $(".usernameInput").val();
-    socket.emit('join',name);
-    //Get the player's id to use in future data transfers
-    socket.on('giveID',function(player){
-       if(player.name === name && id===undefined){
-           id = player.id;
-       }
-   });
-   socket.on('kick',function(playerID){
-       if(playerID==id){
-            $(".client").empty().append($("<h1>Sorry, you have been kicked ;(</h1>"));
-            $(".client h1").css("text-align","center").css("color","#FFF");
-            name  = "mud";
-            id="-1";
-       }
-   });
+    if(name!=""){
+        socket.emit('join',name);
+        //Get the player's id to use in future data transfers
+        socket.on('giveID',function(player){
+           if(player.name === name && id===undefined){
+               id = player.id;
+           }
+        });
+    
+        socket.on('kick',function(playerID){
+            if(playerID==id){
+                $(".client").empty().append($("<h1>Sorry, you have been kicked ;(</h1>"));
+                $(".client h1").css("text-align","center").css("color","#FFF");
+                name  = "mud";
+                id="-1";
+            }
+        });
+    }
 });

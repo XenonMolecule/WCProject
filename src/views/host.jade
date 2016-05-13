@@ -2,9 +2,27 @@ extends ./layout.jade
 
 block content
     .host
-        .hostHeader
-            h1 GAME NAME
-            p Join in at https://TODO-ADD-URL.heroku.com
-        .playerList
-            ul(id="pList")
-        button.startGame.coolBtn START!
+        .home
+            .hostHeader
+                h1 GAME NAME
+                p Join in at https://TODO-ADD-URL.heroku.com
+            .playerList
+                ul(id="pList")
+            button.startGame.coolBtn START!
+        .question page
+            h1.question TEST
+            .answers
+                .answer1
+                    h2 TEST Answer 1
+                .answer2
+                    h2 TEST Answer 2
+                .answer3
+                    h2 TEST Answer 3
+                .answer4
+                    h2 TEST Answer 4
+            .progressBar
+                img(src="/static/images/noNuke.png")
+                .bar
+                    .progress
+                img(src="/static/images/mushroom_cloud.png")
+                
