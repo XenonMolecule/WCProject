@@ -9,8 +9,9 @@ block content
             .playerList
                 ul(id="pList")
             button.startGame.coolBtn START!
-        .question page
+        .questionPage(hidden)
             h1.question TEST
+            h1.timer 30
             .answers
                 .answer1
                     h2 TEST Answer 1
@@ -21,8 +22,8 @@ block content
                 .answer4
                     h2 TEST Answer 4
             .progressBar
-                img(src="/static/images/noNuke.png")
+                img(src="/static/images/noNuke.png").noNukeImg
                 .bar
                     .progress
-                img(src="/static/images/mushroom_cloud.png")
+                img(src="/static/images/mushroom_cloud.png").explosion
                 
