@@ -12,8 +12,8 @@ function player(name,serverID){
     } while(!(checkID(this.id)));
     players.push(this);
 }
-//Data from the questions.json file
-var questionData;
+
+var questionData,gameStarted = false,questionNumber = 0;
 
 //get the questions.json file
 $.getJSON("/static/data/questions.json", function( data ){
@@ -32,13 +32,15 @@ function checkID(id){
 
 //When a player joins, add thier name to the players list and array
 socket.on('join',function(userInfo){
-    var newPlayer = new player(userInfo.name, userInfo.serverID);
-    socket.emit('giveID',newPlayer);
-    $("#pList").append("<li id = '"+newPlayer.id+"' playerID='"+newPlayer.id+"'>"+userInfo.name+"</li>");
-    initPlayerList();
-    if(removePx($(".playerList").css("height")) < removePx($(".playerList ul").css("height"))){
-        $(".playerList").css("height",(removePx($(".playerList ul").css("height"))+5)+"px");
-    } 
+    if(!gameStarted){
+        var newPlayer = new player(userInfo.name, userInfo.serverID);
+        socket.emit('giveID',newPlayer);
+        $("#pList").append("<li id = '"+newPlayer.id+"' playerID='"+newPlayer.id+"'>"+userInfo.name+"</li>");
+        initPlayerList();
+        if(removePx($(".playerList").css("height")) < removePx($(".playerList ul").css("height"))){
+            $(".playerList").css("height",(removePx($(".playerList ul").css("height"))+5)+"px");
+        }
+    }
 });
 
 //remove px from the jQuery height return
@@ -90,3 +92,44 @@ socket.on('disconnection',function(ID){
     $("#"+searchBy(players,'serverID',ID,'id')).remove();
     players = players.splice(searchBy(players,'serverID',ID,'position'),1);
 });
+
+//When the start game button is clicked
+$(".startGame").click(function(){
+    //Stop new players from joining
+    gameStarted = true;
+    changeWaitMessage(questionData.questions[questionNumber].question);
+    $(".home").prop("hidden",true);
+    $(".waiting").prop("hidden",false);
+});
+
+//Change the waiting message
+function changeWaitMessage(forceMessage){
+    if(forceMessage==undefined){
+        $(".waitMSG").text(questionData.waitingMessages[Math.floor(Math.random()*questionData.waitingMessages.length)]);
+    } else {
+        $(".waitMSG").text(forceMessage);
+    }
+}
+
+/*Bear with me here... I wrote this for reuseability, but this is going to be CRAZY
+  (INT, start) is where the timer should start counting down from
+  (INT, end) is the number that the countDown should stop at
+  (INT,freq) is the amount of milliseconds between each time the timer counts down
+  (FUNC, func) is a function that should take in a parameter of the current number,
+                   and do whatever it wants with it
+  (FUNC, callback) is a function that the timer should call on completion
+  (DO NOT USE, currentNum) is for the recursive function to use for it's own purposes
+*/
+function countDown(start,end,freq,func,callback,currentNum){
+    if(currentNum==undefined){
+        currentNum = start;
+    }
+    if(currentNum>end) {
+        currentNum--;
+        func(currentNum);
+        setTimeout(countDown,freq,start,end,freq,callback,currentNum);
+    }
+    if(currentNum==end){
+        callback();
+    }
+}
