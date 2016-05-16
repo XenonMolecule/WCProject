@@ -1,7 +1,6 @@
 'use strict';
 
 var express = require('express');
-var questions =require('./mock/questions.json');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -43,7 +42,8 @@ app.get("/host/:password?",function(req,res){
 
 //SOCKET IO CONNECTION HANDLING
 io.on('connection', function(socket){
-  console.log('a user connected');
+  console.log(socket.id+'-- connected');
+  io.emit('newConnection',socket.id);
   socket.on('join', function(name){
     io.emit('join', name);
   });
@@ -54,6 +54,7 @@ io.on('connection', function(socket){
     io.emit('kick',id);
   });
   socket.on('disconnect', function(){
-    console.log('user disconnected');
+    io.emit('disconnection',socket.id);
+    console.log(socket.id+'-- disconnected');
   });
 });

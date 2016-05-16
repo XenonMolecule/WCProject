@@ -147,16 +147,59 @@ body{
   margin-left:0vw;
 }
 
+.waiting{
+  text-align:center;
+  font-size:10vw;
+  margin-top:30vh;
+  color:#FFF;
+  font-family: 'Oswald', sans-serif;
+}
+
+.subMSG{
+  font-size:5vw;
+  margin-top:-5vw;
+}
+
+.gameButtons button{
+  width:45vw;
+  height:45vh;
+  margin-right:2vw;
+  margin-bottom:2vh;
+  border-style:none;
+  border-radius:15px;
+  font-family: 'Oswald', sans-serif;
+  font-size:20vw;
+  color:#FFF;
+}
+
+.gameButtons{
+  margin-left:2.5vw;
+  margin-top:2.5vh;
+}
+
+@media(max-width:1100px){
+  .gameButtons button{
+    width:40vw;
+    height:40vh;
+    margin-right:4vw;
+    margin-bottom:4vh;
+  }
+  .gameButtons{
+    margin-left:5vw;
+    margin-top:5vh;
+  }
+}
+
 @media(max-width:700px){
   .timer{
     margin-top:-7vh;
-  }  
+  }
 }
 
 @media(max-width:500px){
   .timer{
     margin-top:-5vh;
-  }  
+  }
 }
 
 @media(min-width:1200px){
@@ -194,6 +237,15 @@ body{
   }
   .answers div h2{
     font-size:2.5vw;
+  }
+  .waiting{
+    font-size:5vw;
+  }
+  .subMSG{
+    font-size:2.5vw;
+  }
+  .gameButtons button{
+    font-size:10vw;
   }
 }
 
