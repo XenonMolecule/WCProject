@@ -74,3 +74,33 @@ function countDown(start,end,freq,func,callback,currentNum){
         callback();
     }
 }
+
+//Prepare the question
+socket.on('prepQ',function(question){
+    $(".waiting").prop("hidden",false);
+    $(".gameButtons").prop("hidden",true);
+    changeWaitMessage(question);
+});
+
+//QUESTION ROUND HANDLING
+socket.on('quesRound',function(dummyValue){
+    $(".gameButtons").prop("hidden",false);
+    $(".waiting").prop("hidden",true);
+    $(".gameButtons button").each(function(){
+        $(this).click(function(){
+            sendAnswer($(this).attr("id"));
+        });
+    });
+});
+
+//Code to send the answer selected by the player
+function sendAnswer(ansNum){
+    $(".gameButtons").prop("hidden",true);
+    changeWaitMessage();
+    $(".waiting").prop("hidden",false);
+    ansNum = ansNum.split("btn")[1];
+    console.log(ansNum);
+    ansNum = parseInt(ansNum)-1;
+    console.log(ansNum);
+    socket.emit('submitAns',{ans:ansNum,id:id});
+}

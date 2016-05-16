@@ -7,13 +7,14 @@ function player(name,serverID){
     this.name = name;
     this.serverID = serverID;
     this.points = 0;
+    this.answeredThisRound = false;
     do{
         this.id = Math.round(Math.random()*1000);
     } while(!(checkID(this.id)));
     players.push(this);
 }
 
-var questionData,gameStarted = false,questionNumber = 0;
+var questionData,gameStarted = false,questionNumber = 0, answers = [0,0,0,0], currentTime = 0;
 
 //get the questions.json file
 $.getJSON("/static/data/questions.json", function( data ){
@@ -97,9 +98,9 @@ socket.on('disconnection',function(ID){
 $(".startGame").click(function(){
     //Stop new players from joining
     gameStarted = true;
-    changeWaitMessage(questionData.questions[questionNumber].question);
     $(".home").prop("hidden",true);
-    $(".waiting").prop("hidden",false);
+    questionNumber--;
+    nextRound();
 });
 
 //Change the waiting message
@@ -127,9 +128,53 @@ function countDown(start,end,freq,func,callback,currentNum){
     if(currentNum>end) {
         currentNum--;
         func(currentNum);
-        setTimeout(countDown,freq,start,end,freq,callback,currentNum);
+        setTimeout(countDown,freq,start,end,freq,func,callback,currentNum);
     }
     if(currentNum==end){
         callback();
     }
 }
+
+//A function to call to start the next round in the game
+function nextRound(){
+    questionNumber++;
+    answers = [0,0,0,0];
+    for(var i = 0; i < players.length; i ++){
+        players[i].answeredThisRound = false;
+    }
+    $(".questionPage").prop("hidden",true);
+    changeWaitMessage(questionData.questions[questionNumber].question);
+    $(".waiting").prop("hidden",false);
+    socket.emit('prepQ',questionData.questions[questionNumber].question);
+    countDown(6,0,1000,function(num){
+        $(".subMSG").text(num+"...");
+    }, function(){
+        socket.emit('quesRound','dummyValue');
+        $(".waiting").prop("hidden",true);
+        $(".question").html("<h1>"+questionData.questions[questionNumber].question+"</h1>");
+        $(".answer1").html("<h2>"+questionData.questions[questionNumber].ans0+"</h2>");
+        $(".answer2").html("<h2>"+questionData.questions[questionNumber].ans1+"</h2>");
+        $(".answer3").html("<h2>"+questionData.questions[questionNumber].ans2+"</h2>");
+        $(".answer4").html("<h2>"+questionData.questions[questionNumber].ans3+"</h2>");
+        countDown(21,0,1000,function(num){
+            $(".timer").text(""+num);
+            currentTime = num;
+        },function(){
+            //END OF ROUND HANDLING
+            
+        });
+        $(".questionPage").prop("hidden",false);
+    });
+}
+
+//HANDLE INCOMING ANSWERS
+socket.on('submitAns',function(information){
+    if(!searchBy(players,'id',information.id).answeredThisRound){
+        searchBy(players,'id',information.id).answeredThisRound = true;
+        answers[information.ans]++;
+        //If the player got the correct answer, add points to their score accordingly
+        if(information.ans == questionData.questions[questionNumber].correct){
+            searchBy(players,'id',information.id).points += (currentTime*100);
+        }
+    }
+});

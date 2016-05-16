@@ -145,6 +145,7 @@ body{
   position:absolute;
   margin-top:-9vh;
   margin-left:0vw;
+  font-size:7vw;
 }
 
 .waiting{
@@ -170,6 +171,7 @@ body{
   font-family: 'Oswald', sans-serif;
   font-size:20vw;
   color:#FFF;
+  cursor:pointer;
 }
 
 .gameButtons{
@@ -247,6 +249,9 @@ body{
   .gameButtons button{
     font-size:10vw;
   }
+  .timer{
+    font-size:4vw;
+  }
 }
 
 @media(min-width:1700px){
@@ -254,6 +259,9 @@ body{
     margin-top:7.5vh;
   }
   .question{
+    font-size:3vw;
+  }
+  .timer{
     font-size:3vw;
   }
 }

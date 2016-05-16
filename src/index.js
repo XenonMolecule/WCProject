@@ -53,6 +53,15 @@ io.on('connection', function(socket){
   socket.on('kick',function(id){
     io.emit('kick',id);
   });
+  socket.on('prepQ',function(question){
+    io.emit('prepQ',question);
+  });
+  socket.on('quesRound',function(dummyValue){
+    io.emit('quesRound',dummyValue);
+  });
+  socket.on('submitAns',function(info){
+    io.emit('submitAns',info);
+  })
   socket.on('disconnect', function(){
     io.emit('disconnection',socket.id);
     console.log(socket.id+'-- disconnected');
