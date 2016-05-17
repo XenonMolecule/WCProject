@@ -1,4 +1,15 @@
 {
     "waitingMessages":["MY BOOOYYYZZZZ","Fun Fact...","PU YI!!!","Boxer :'(","Napolean is my BOY","A Prince must demand to be called 'MY BOY' by his subjects","Sepuku...","Kris Jenkins sinks the half court shot","Roxelana","Chef Curry with the shot boy","Josh's Refugees","Abdul Aziz was one of the best Sultans of all time"],
-    "questions":[{"question":"A TEST QUESTION","ans0":"WRONG TEST ANSWER","ans1":"RIGHT TEST ANSWER","ans2":"WRONG TEST ANSWER","ans3":"WRONG TEST ANSWER","correct":1}]
+    "questions":[
+        {
+            "question":"A TEST QUESTION",
+            "ans0":"WRONG TEST ANSWER",
+            "ans1":"RIGHT TEST ANSWER",
+            "ans2":"WRONG TEST ANSWER",
+            "ans3":"WRONG TEST ANSWER",
+            "correct":1
+            
+        }],
+    "winNewsMessages":["Nukes Taken","Another country agrees to NPT","LOL ANOTHER TEST"],
+    "loseNewsMessages":["Funding to nations nuclear program","Nation declines NPT","LOL WRONG ANSWER"]
 }

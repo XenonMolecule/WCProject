@@ -14,7 +14,7 @@ function player(name,serverID){
     players.push(this);
 }
 
-var questionData,gameStarted = false,questionNumber = 0, answers = [0,0,0,0], currentTime = 0;
+var questionData,gameStarted = false,questionNumber = 0, answers = [0,0,0,0], currentTime = 0,acceptingAnswers = false;
 
 //get the questions.json file
 $.getJSON("/static/data/questions.json", function( data ){
@@ -137,11 +137,14 @@ function countDown(start,end,freq,func,callback,currentNum){
 
 //A function to call to start the next round in the game
 function nextRound(){
+    //Reset Round Variables
     questionNumber++;
     answers = [0,0,0,0];
+    acceptingAnswers = true;
     for(var i = 0; i < players.length; i ++){
         players[i].answeredThisRound = false;
     }
+    //Move on to technical hiding and showing, and server and client stuff
     $(".questionPage").prop("hidden",true);
     changeWaitMessage(questionData.questions[questionNumber].question);
     $(".waiting").prop("hidden",false);
@@ -152,16 +155,27 @@ function nextRound(){
         socket.emit('quesRound','dummyValue');
         $(".waiting").prop("hidden",true);
         $(".question").html("<h1>"+questionData.questions[questionNumber].question+"</h1>");
-        $(".answer1").html("<h2>"+questionData.questions[questionNumber].ans0+"</h2>");
-        $(".answer2").html("<h2>"+questionData.questions[questionNumber].ans1+"</h2>");
-        $(".answer3").html("<h2>"+questionData.questions[questionNumber].ans2+"</h2>");
-        $(".answer4").html("<h2>"+questionData.questions[questionNumber].ans3+"</h2>");
+        $(".questionPage .answer1").html("<h2>"+questionData.questions[questionNumber].ans0+"</h2>");
+        $(".questionPage .answer2").html("<h2>"+questionData.questions[questionNumber].ans1+"</h2>");
+        $(".questionPage .answer3").html("<h2>"+questionData.questions[questionNumber].ans2+"</h2>");
+        $(".questionPage .answer4").html("<h2>"+questionData.questions[questionNumber].ans3+"</h2>");
         countDown(21,0,1000,function(num){
             $(".timer").text(""+num);
             currentTime = num;
         },function(){
             //END OF ROUND HANDLING
-            
+            acceptingAnswers = false;
+            $(".questionPage").prop("hidden",true);
+            drawResults();
+            $(".results").prop("hidden",false);
+            countDown(6,0,1000,function(num){
+                if(num<4){
+                    $(".results .answer"+(questionData.questions[questionNumber].correct+1)).parents(".bar").toggleClass("correct");
+                }
+            },function(){
+                //$(".results .answer"+(questionData.questions[questionNumber].correct+1)).parents(".bar").removeClass("correct");
+                //TIME TO CALL IN NEWSPAPER ANIMATION
+            });
         });
         $(".questionPage").prop("hidden",false);
     });
@@ -169,7 +183,7 @@ function nextRound(){
 
 //HANDLE INCOMING ANSWERS
 socket.on('submitAns',function(information){
-    if(!searchBy(players,'id',information.id).answeredThisRound){
+    if((!(searchBy(players,'id',information.id).answeredThisRound))&&(acceptingAnswers)){
         searchBy(players,'id',information.id).answeredThisRound = true;
         answers[information.ans]++;
         //If the player got the correct answer, add points to their score accordingly
@@ -178,3 +192,31 @@ socket.on('submitAns',function(information){
         }
     }
 });
+
+//Set the % meters on the results page
+function drawResults(){
+    for(var  i = 0; i < answers.length; i ++){
+        $(".results .answer"+(i+1)).css("width",((77.5*(answers[i]/players.length))+1)+"%");
+    }
+}
+
+/*A function to return the most popular answer
+  Favors the correct answer in a tie, and whichever comes
+  First if the correct answer is not involved.*/
+function determineAns(){
+    var sorted = [0,0,0,0];
+    for(var i = 0; i < answers.length; i++){
+        sorted[i] = answers[i];
+    }
+    sorted.sort(function(a,b){return b-a});
+    var correctAns = questionData.questions[questionNumber].correct;
+    if(answers[correctAns]==sorted[0]){
+        return correctAns;
+    } else {
+        for(var i = 0; i < answers.length; i ++){
+            if(answers[i] == sorted[0]){
+                return i;
+            }
+        }
+    }
+}

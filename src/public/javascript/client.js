@@ -1,7 +1,7 @@
 //CODE FOR THE CLIENT OF THE GAME
 
 //Initialize some variables for later use
-var name,id,serverID,questionData;
+var name,id,serverID,questionData, sentAnswer;
 
 //get the questions.json file
 $.getJSON("/static/data/questions.json", function( data ){
@@ -80,6 +80,7 @@ socket.on('prepQ',function(question){
     $(".waiting").prop("hidden",false);
     $(".gameButtons").prop("hidden",true);
     changeWaitMessage(question);
+    sentAnswer = false;
 });
 
 //QUESTION ROUND HANDLING
@@ -95,12 +96,17 @@ socket.on('quesRound',function(dummyValue){
 
 //Code to send the answer selected by the player
 function sendAnswer(ansNum){
-    $(".gameButtons").prop("hidden",true);
-    changeWaitMessage();
-    $(".waiting").prop("hidden",false);
-    ansNum = ansNum.split("btn")[1];
-    console.log(ansNum);
-    ansNum = parseInt(ansNum)-1;
-    console.log(ansNum);
-    socket.emit('submitAns',{ans:ansNum,id:id});
+    if(!sentAnswer){
+        sentAnswer = true;
+        $(".gameButtons").prop("hidden",true);
+        changeWaitMessage();
+        $(".waiting").prop("hidden",false);
+        ansNum = ansNum.split("btn")[1];
+        ansNum = parseInt(ansNum)-1;
+        socket.emit('submitAns',{ans:ansNum,id:id});
+    } else {
+        $(".gameButtons").prop("hidden",true);
+        changeWaitMessage();
+        $(".waiting").prop("hidden",false);
+    }
 }

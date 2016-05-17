@@ -10,8 +10,8 @@ block content
                 ul(id="pList")
             button.startGame.coolBtn START!
         .questionPage(hidden)
-            h1.question TEST
             h1.timer 30
+            h1.question TEST
             .answers
                 .answer1
                     h2 TEST Answer 1
@@ -29,4 +29,16 @@ block content
         .waiting(hidden)
             p.waitMSG LOADING...
             p.subMSG Please Wait...
-                
+        .results(hidden)
+            h1 Results
+            .bar
+                .progress.answer1
+            .bar
+                .progress.answer2
+            .bar
+                .progress.answer3
+            .bar
+                .progress.answer4
+        .news
+            p.newsText INSERT NEWS REPORT
+            img(src="/static/images/blankNewsPaper.png").newspaper
