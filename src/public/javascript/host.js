@@ -14,7 +14,7 @@ function player(name,serverID){
     players.push(this);
 }
 
-var questionData,gameStarted = false,questionNumber = 0, answers = [0,0,0,0], currentTime = 0,acceptingAnswers = false;
+var questionData,gameStarted = false,questionNumber = 0, answers = [0,0,0,0], currentTime = 0,acceptingAnswers = false, nukeState = 50,runEndRound = true, runNews = true, orderedScores = [],showFinal = false;
 
 //get the questions.json file
 $.getJSON("/static/data/questions.json", function( data ){
@@ -139,6 +139,8 @@ function countDown(start,end,freq,func,callback,currentNum){
 function nextRound(){
     //Reset Round Variables
     questionNumber++;
+    runNews = true;
+    runEndRound = true;
     answers = [0,0,0,0];
     acceptingAnswers = true;
     for(var i = 0; i < players.length; i ++){
@@ -164,19 +166,73 @@ function nextRound(){
             currentTime = num;
         },function(){
             //END OF ROUND HANDLING
-            acceptingAnswers = false;
-            $(".questionPage").prop("hidden",true);
-            drawResults();
-            $(".results").prop("hidden",false);
-            countDown(6,0,1000,function(num){
-                if(num<4){
-                    $(".results .answer"+(questionData.questions[questionNumber].correct+1)).parents(".bar").toggleClass("correct");
-                }
-            },function(){
-                //$(".results .answer"+(questionData.questions[questionNumber].correct+1)).parents(".bar").removeClass("correct");
-                //TIME TO CALL IN NEWSPAPER ANIMATION
-            });
+            if(runEndRound){
+                runEndRound = false;
+                acceptingAnswers = false;
+                $(".questionPage").prop("hidden",true);
+                drawResults();
+                $(".results").prop("hidden",false);
+                countDown(6,0,1000,function(num){
+                    if(num<4){
+                        $(".results .answer"+(questionData.questions[questionNumber].correct+1)).parents(".bar").toggleClass("correct");
+                    }
+                },function(){
+                    //TIME TO CALL IN NEWSPAPER ANIMATION
+                    if(runNews){
+                        runNews = false;
+                        $(".results").prop("hidden",true);
+                        $(".results .answer"+(questionData.questions[questionNumber].correct+1)).parents(".bar").removeClass("correct");
+                        var report;
+                        if(determineAns()==questionData.questions[questionNumber].correct){
+                            report = questionData.winNewsMessages[(Math.floor(Math.random()*questionData.winNewsMessages.length))];
+                            if(nukeState>0){
+                                nukeState-=10;
+                            }
+                        } else {
+                            report = questionData.loseNewsMessages[(Math.floor(Math.random()*questionData.loseNewsMessages.length))];
+                            if(nukeState<100){
+                                nukeState+=10;
+                            }
+                        }
+                        $(".newsText").text(report);
+                        $(".news").fadeIn(1000);
+                        countDown(6,0,1000,function(num){
+                            if(num==1){
+                                $(".news").fadeOut(1000);
+                                if(questionNumber>=questionData.questions.length-1){
+                                    showFinal = true;
+                                }
+                            }
+                        },function(){
+                            
+                            if(questionNumber<(questionData.questions.length-1)){
+                                nextRound();
+                            } else {
+                                //SHOW FINAL PAGE
+                                if(showFinal){
+                                    showFinal = false;
+                                    if(nukeState<50){
+                                        $(".congratulatoryRemark").text("Congratulations");
+                                        $(".congratsDescription").text("You managed to hinder the enemy nuclear program by "+(50-nukeState)+"%");
+                                    } else if(nukeState>50){
+                                        $(".congratulatoryRemark").text("Uh oh");
+                                        $(".congratsDescription").text("Unfortuantely the enemy nuclear program grew by "+(nukeState-50)+"%");
+                                    } else {
+                                        $(".congratulatoryRemark").text("Meh...");
+                                        $(".congratsDescription").text("Somehow you managed not to effect the enemy nuclear program at all");
+                                    }
+                                    var bestPlayer = getBestPlayer();
+                                    $(".bestPlayer").text(bestPlayer.name+" - "+bestPlayer.points+"pts");
+                                    $(".finalResults").prop("hidden",false);
+                                    socket.emit('finalResults',players);
+                                }
+                            }
+                        });
+                    }
+                });
+            }
         });
+        $(".questionPage .progress").css("width",nukeState+"%");
         $(".questionPage").prop("hidden",false);
     });
 }
@@ -196,7 +252,7 @@ socket.on('submitAns',function(information){
 //Set the % meters on the results page
 function drawResults(){
     for(var  i = 0; i < answers.length; i ++){
-        $(".results .answer"+(i+1)).css("width",((77.5*(answers[i]/players.length))+1)+"%");
+        $(".results .answer"+(i+1)).css("width",(Math.round(77.5*(answers[i]/players.length))+1)+"%");
     }
 }
 
@@ -219,4 +275,14 @@ function determineAns(){
             }
         }
     }
+}
+
+//A function to return the best player
+function getBestPlayer(){
+    var sorted = [];
+    for(var i = 0; i < players.length; i ++){
+        sorted[i] = players[i].points;
+    }
+    sorted.sort(function(a,b){return b-a});
+    return searchBy(players,'points',sorted[0]);
 }

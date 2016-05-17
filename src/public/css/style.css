@@ -210,6 +210,39 @@ body{
   background-color:#00FF00;
 }
 
+.news{
+  text-align:center;
+}
+
+.newsText{
+  margin-left:9vw;
+  margin-top:30.5vw;
+  position:absolute;
+  z-index:1000;
+  font-family: 'Oswald', sans-serif;
+  color:#000000;
+}
+
+.newspaper{
+  width:95vw;
+}
+
+.congratulatoryRemark{
+  font-size:10vw;
+}
+
+.congratsDescription{
+  font-size:3vw;
+}
+
+.highScore{
+  font-size:5vw
+}
+
+.bestPlayer{
+  font-size:3.5vw;
+}
+
 @media(max-width:1100px){
   .gameButtons button{
     width:40vw;
@@ -285,6 +318,28 @@ body{
   }
   .results h1{
     font-size:5vw;
+  }
+  .newspaper{
+    width:50vw;
+  }
+  .newsText{
+    margin-left:28.5vw;
+    margin-top:16vw;
+  }
+  .congratulatoryRemark{
+    font-size:5vw;
+  }
+
+  .congratsDescription{
+    font-size:1.5vw;
+  }
+
+  .highScore{
+    font-size:2.5vw
+  }
+
+  .bestPlayer{
+    font-size:1.75vw;
   }
 }
 

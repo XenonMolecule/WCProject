@@ -110,3 +110,57 @@ function sendAnswer(ansNum){
         $(".waiting").prop("hidden",false);
     }
 }
+
+/*Search through an object array (ARRAY, array) to find the object that has the property (STRING, property)
+  With the same value as (ANY, value).  (STRING, returnType) is an optional parameter of either "object","position",
+  or a property name and it will return which ever one is selected.  If not set it defaults to object.*/
+function searchBy(array, property, value, returnType){
+    returnType = (returnType==undefined ? "object" : returnType);
+    for(var i = 0; i < array.length; i++){
+        if(array[i][property] === value){
+            if(returnType.toLowerCase()=="object"){
+                return array[i];
+            } else if(returnType.toLowerCase() == "position"){
+                return i;
+            } else{
+                return array[i][returnType];
+            }
+        }
+    }
+    return -1;
+}
+
+//Handle Final Scores
+socket.on('finalResults',function(players){
+    console.log(players);
+   var me = searchBy(players,'id',id);
+   console.log(me);
+   var sorted = [];
+   for(var i = 0; i < players.length; i++){
+       sorted[i] = players[i].points;
+   }
+   sorted.sort(function(a,b){return b-a});
+   var place = 0;
+   for(var i = 0; i < sorted.length; i++){
+       if(me.points==sorted[i]){
+           place = (i+1);
+       }
+   }
+   console.log(sorted);
+   changeWaitMessage(findEnding(place));
+   $(".subMSG").text("place");
+});
+
+//A function to find the suffix of a number IE: 1 -> 1st, 2 -> 2nd, etc.
+function findEnding(number){
+    switch(number%10){
+        case 1:
+            return number+"st";
+        case 2:
+            return number+"nd";
+        case 3:
+            return number+"rd";
+        default:
+            return number+"th";
+    }
+}

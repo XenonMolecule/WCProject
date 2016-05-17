@@ -61,6 +61,9 @@ io.on('connection', function(socket){
   });
   socket.on('submitAns',function(info){
     io.emit('submitAns',info);
+  });
+  socket.on('finalResults',function(players){
+    io.emit('finalResults',players);
   })
   socket.on('disconnect', function(){
     io.emit('disconnection',socket.id);

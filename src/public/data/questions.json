@@ -9,6 +9,13 @@
             "ans3":"WRONG TEST ANSWER",
             "correct":1
             
+        },{
+            "question":"ANOTHER TEST QUESTION",
+            "ans0":"RIGHT TEST ANSWER",
+            "ans1":"WRONG TEST ANSWER",
+            "ans2":"WRONG TEST ANSWER",
+            "ans3":"WRONG TEST ANSWER",
+            "correct":0
         }],
     "winNewsMessages":["Nukes Taken","Another country agrees to NPT","LOL ANOTHER TEST"],
     "loseNewsMessages":["Funding to nations nuclear program","Nation declines NPT","LOL WRONG ANSWER"]
