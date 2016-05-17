@@ -1,21 +1,37 @@
 {
-    "waitingMessages":["MY BOOOYYYZZZZ","Fun Fact...","PU YI!!!","Boxer :'(","Napolean is my BOY","A Prince must demand to be called 'MY BOY' by his subjects","Sepuku...","Kris Jenkins sinks the half court shot","Roxelana","Chef Curry with the shot boy","Josh's Refugees","Abdul Aziz was one of the best Sultans of all time"],
+    "waitingMessages":["MY BOOOYYYZZZZ","Fun Fact...","PU YI!!!","Boxer :'(","Napolean is my BOY","A Prince must demand to be called 'MY BOY' by his subjects","Seppuku...","Kris Jenkins sinks the half court shot","Roxelana","Chef Curry with the shot boy","Josh's Refugees","Abdul Aziz was one of the best Sultans of all time"],
     "questions":[
         {
-            "question":"A TEST QUESTION",
-            "ans0":"WRONG TEST ANSWER",
-            "ans1":"RIGHT TEST ANSWER",
-            "ans2":"WRONG TEST ANSWER",
-            "ans3":"WRONG TEST ANSWER",
-            "correct":1
+            "question":"Which country assisted Iran at the very beginning of it's nuclear program?",
+            "ans0":"USA",
+            "ans1":"Pakistan",
+            "ans2":"India",
+            "ans3":"Israel",
+            "correct":0
             
         },{
-            "question":"ANOTHER TEST QUESTION",
-            "ans0":"RIGHT TEST ANSWER",
-            "ans1":"WRONG TEST ANSWER",
-            "ans2":"WRONG TEST ANSWER",
-            "ans3":"WRONG TEST ANSWER",
-            "correct":0
+            "question":"Which discussions between North Korea and different countries began in 2003?",
+            "ans0":"Seven-party talks",
+            "ans1":"Eight-party talks",
+            "ans2":"Six-party talks",
+            "ans3":"Berlin Conferences",
+            "correct":2
+        },
+        {
+            "question":"What does NPT stand for?",
+            "ans0":"Nuclear Party Treaty",
+            "ans1":"Non-Proliferation Treaty",
+            "ans2":"Non-Partisan Treaty",
+            "ans3":"No Panda Tapestry",
+            "correct":1
+        },
+        {
+            "question":"What did the UN impose on North Korea after it's missile testing",
+            "ans0":"United Nations",
+            "ans1":"Relief Aid",
+            "ans2":"Refugees",
+            "ans3":"Sanctions",
+            "correct": 3
         }],
     "winNewsMessages":["Nukes Taken","Another country agrees to NPT","LOL ANOTHER TEST"],
     "loseNewsMessages":["Funding to nations nuclear program","Nation declines NPT","LOL WRONG ANSWER"]
