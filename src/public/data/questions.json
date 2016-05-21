@@ -32,6 +32,46 @@
             "ans2":"Refugees",
             "ans3":"Sanctions",
             "correct": 3
+        },
+        {
+            "question":"Which isotope of uranium is useful for nuclear bombs and reactors?",
+            "ans0":"U - 238",
+            "ans1":"U - 235",
+            "ans2":"U - 144",
+            "ans3":"Ca - 314",
+            "correct":1
+        },
+        {
+            "question":"What is the type of energy we convert to electricity that is released when an element undergoes fission?",
+            "ans0":"Thermal Energy",
+            "ans1":"Kinectic Energy",
+            "ans2":"Potential Energy",
+            "ans3":"Magical Energy",
+            "correct":0
+        },
+        {
+            "question":"Which scientific conferences did Russel and Einstein call for to discuss the dangers of atomic warfare?",
+            "ans0":"Treaty of Versailles",
+            "ans1":"AIPAC",
+            "ans2":"Poodleclean conferences",
+            "ans3":"Poodleclean conferences",
+            "correct":3
+        },
+        {
+            "question":"Which of the following is a benefit of nuclear power generation",
+            "ans0":"Decreased Emissions",
+            "ans1":"They are cheap to make",
+            "ans2":"Easy maintenance",
+            "ans3":"Easy to store waste materials",
+            "correct":0
+        },
+        {
+            "question":"Which U.S. political party leads the opposition to the Iran Deal?",
+            "ans0":"The Democratic Party",
+            "ans1":"The Trump Youth",
+            "ans2":"The Republican Party (G.O.P.)",
+            "ans3":"The Green Party",
+            "correct": 2
         }],
     "winNewsMessages":["Nukes Taken","Another country agrees to NPT","LOL ANOTHER TEST"],
     "loseNewsMessages":["Funding to nations nuclear program","Nation declines NPT","LOL WRONG ANSWER"]
