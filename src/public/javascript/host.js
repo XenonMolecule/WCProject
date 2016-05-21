@@ -14,7 +14,7 @@ function player(name,serverID){
     players.push(this);
 }
 
-var questionData,gameStarted = false,questionNumber = 0, answers = [0,0,0,0], currentTime = 0,acceptingAnswers = false, nukeState = 50,runEndRound = true, runNews = true, orderedScores = [],showFinal = false;
+var questionData,gameStarted = false,questionNumber = 0, answers = [0,0,0,0], currentTime = 0,acceptingAnswers = false, nukeState = 50,runEndRound = true, runNews = true, orderedScores = [],showFinal = false, canSwitchQ = true;
 
 //get the questions.json file
 $.getJSON("/static/data/questions.json", function( data ){
@@ -155,6 +155,7 @@ function nextRound(){
         $(".subMSG").text(num+"...");
     }, function(){
         socket.emit('quesRound','dummyValue');
+        canSwitchQ = true;
         $(".waiting").prop("hidden",true);
         $(".question").html("<h1>"+questionData.questions[questionNumber].question+"</h1>");
         $(".questionPage .answer1").html("<h2>"+questionData.questions[questionNumber].ans0+"</h2>");
@@ -206,7 +207,10 @@ function nextRound(){
                         },function(){
                             
                             if(questionNumber<(questionData.questions.length-1)){
-                                nextRound();
+                                if(canSwitchQ){
+                                    nextRound();
+                                    canSwitchQ = false;
+                                }
                             } else {
                                 //SHOW FINAL PAGE
                                 if(showFinal){
