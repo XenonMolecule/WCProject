@@ -72,7 +72,15 @@
             "ans2":"The Republican Party (G.O.P.)",
             "ans3":"The Green Party",
             "correct": 2
+        },
+        {
+            "question":"What is the border between North and South Korea called?",
+            "ans0":"34th parallel",
+            "ans1":"38th parallel",
+            "ans2":"5th parallel",
+            "ans3":"Rodeo Drive",
+            "correct":1
         }],
-    "winNewsMessages":["Nukes Taken","Another country agrees to NPT","LOL ANOTHER TEST"],
-    "loseNewsMessages":["Funding to nations nuclear program","Nation declines NPT","LOL WRONG ANSWER"]
+    "winNewsMessages":["Iran caught violating U.N. sanctions, harsh penalties to come","Joint U.S.-South Korea naval training to resume","U.N. places new sanctions on North Korea","Iranian missile test fails","Ayatollah falls ill","U.S. president approves new North Korea sanctions","Arab League approves new wave of Iran sanctions"],
+    "loseNewsMessages":["Iran builds 10 more centrifuges","Iran builds new Tehran nuclear facility","North Korea successfully tests ballistic missiles","U.S. military finds North Korea and Iran are in talks","Israel draws new 'Red Line'","Anti-Israel rallies erupt in Tehran","North Korea claims to have tested hydrogen bomb"]
 }
